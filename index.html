@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#172723" />
+    <title>판도 — 475년 삼국시대</title>
+    <link rel="icon" href="assets/seal.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="assets/atlas/world-data.js" defer></script>
+    <script src="data.js" defer></script>
+    <script src="map.js" defer></script>
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <header class="mast">
+      <div class="brand">
+        <img src="assets/seal.svg" alt="" /><strong>판도</strong
+        ><span class="brand-line"></span><span class="edition">삼국시대</span>
+      </div>
+      <div class="mast-end">
+        <span class="region">동아시아</span
+        ><button id="sources" class="source-btn">
+          지도와 사료 <span aria-hidden="true">ⓘ</span>
+        </button>
+      </div>
+    </header>
+    <main class="screen">
+      <section
+        id="atlas-stage"
+        class="map-stage"
+        aria-label="475년 한반도 실제 지형과 가상 전선"
+      >
+        <svg
+          id="atlas-map"
+          viewBox="180 110 730 900"
+          role="group"
+          aria-label="실제 해안선에 표시한 삼국 지도. 나라 이름을 누르면 선택됩니다."
+        >
+          <defs>
+            <clipPath id="mainland"><path id="shore-clip" /></clipPath>
+            <pattern
+              id="uncertain"
+              width="7"
+              height="7"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(30)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="7"
+                stroke="#a28258"
+                stroke-width="1"
+                opacity=".35"
+              />
+            </pattern>
+            <filter
+              id="flagShadow"
+              x="-60%"
+              y="-60%"
+              width="220%"
+              height="240%"
+            >
+              <feDropShadow
+                dx="0"
+                dy="2"
+                stdDeviation="1.2"
+                flood-color="#211b11"
+                flood-opacity=".4"
+              />
+            </filter>
+          </defs>
+          <image
+            id="relief"
+            href="assets/atlas/relief.webp"
+            x="-450"
+            y="0"
+            width="1900"
+            height="1074.4974"
+            preserveAspectRatio="none"
+          />
+          <g clip-path="url(#mainland)" id="geo">
+            <g id="zones"></g>
+            <g id="front-history"></g>
+            <g id="fronts"></g>
+          </g>
+          <g id="cartography"></g>
+          <g id="standards"></g>
+          <g id="labels"></g>
+          <g id="event-pin"></g>
+        </svg>
+        <div class="map-date">
+          <div class="reign"><span></span><b>동아시아 전도</b></div>
+          <div class="year-line">
+            <strong id="year">475</strong><span>서기</span>
+          </div>
+          <div class="date-detail">
+            <span id="season">겨울</span><i></i><span id="month">12월</span>
+          </div>
+        </div>
+        <div class="north" aria-hidden="true">
+          N<svg viewBox="0 0 38 44">
+            <path
+              d="M19 2 27 33 19 26 11 33Z"
+              fill="#f5ebc7"
+              stroke="#4c5044"
+            />
+            <path d="M19 2 19 26 11 33Z" fill="#465148" />
+            <path d="M3 24H35" stroke="#677064" />
+          </svg>
+        </div>
+        <div class="map-bottom">
+          <div class="map-key">
+            <span class="dash"></span
+            ><span id="border-key">475년 추정 경계</span>
+          </div>
+          <div class="zoom">
+            <button id="zoom-out" aria-label="지도 축소">−</button
+            ><button id="zoom-home" aria-label="지도 중심 복원">⌖</button
+            ><button id="zoom-in" aria-label="지도 확대">+</button>
+          </div>
+        </div>
+      </section>
+      <aside class="desk" aria-label="나라 및 시뮬레이션 조작">
+        <div class="desk-tabs" role="navigation" aria-label="게임 패널">
+          <button id="view-command" class="chosen" aria-pressed="true">
+            지휘</button
+          ><button id="view-log" aria-pressed="false">
+            연대기 <span id="log-count">0</span>
+          </button>
+        </div>
+        <div class="desk-scroll" id="panel"></div>
+        <section class="transport" aria-label="재생 조작">
+          <div class="speed-line">
+            <span id="transport-label">재생 속도</span>
+            <div class="speed-group" aria-label="재생 배속">
+              <button data-speed="1">1×</button
+              ><button data-speed="2" class="selected" aria-pressed="true">
+                2×</button
+              ><button data-speed="4">4×</button>
+            </div>
+          </div>
+          <button id="play" class="primary"></button>
+        </section>
+      </aside>
+    </main>
+    <dialog id="record-dialog">
+      <div class="dialog-line">
+        <h2>지도와 사료</h2>
+        <button id="close-dialog" aria-label="닫기">×</button>
+      </div>
+      <div id="credits"></div>
+    </dialog>
+    <div class="sr" id="announce" role="status" aria-live="polite"></div>
+  </body>
+</html>
